@@ -1,10 +1,14 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class Borrower {
+/**
+ * The class Borrower is use to store borrower data and borrowed books if any
+ */
+public class Borrower implements Comparable<Borrower> {
 
 	private int borrowerId;
 	private String borrowerName;
-	private ArrayList<Book> borrowedBooks;
+	private ArrayList<Book> borrowedBooks = new ArrayList<Book>();
 
 	public int getBorrowerId() {
 		return borrowerId;
@@ -32,7 +36,7 @@ public class Borrower {
 
 	@Override
 	public String toString() {
-		return "";
+		return borrowerName;
 	}
 
 	@Override
@@ -50,12 +54,36 @@ public class Borrower {
 		return false;
 	}
 
-	public void attachBook() {
-
+	public void attachBook(Book bk) {
+		if(bk == null || bk.getBorrower() != null) {
+			return;
+		}
+		
+		borrowedBooks.add(bk);
 	}
 	
-	public void detachBook() {
+	public void detachBook(Book bk) {
+		if(bk == null || bk.getBorrower() == null) {
+			return;
+		}
 		
+		bk.detachBorrower(this);
+		
+		Iterator<Book> it = borrowedBooks.iterator();
+		
+		while(it.hasNext()) {
+			Book book = it.next();
+			
+			if(book == bk) {
+				it.remove();
+				return;
+			}
+		}
+	}
+
+	@Override
+	public int compareTo(Borrower other) {
+		return Integer.compare(this.borrowerId, other.borrowerId);
 	}
 
 }

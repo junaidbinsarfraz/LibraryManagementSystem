@@ -1,5 +1,7 @@
-
-public class Book {
+/**
+ * This class Book is used to store a book data and borrower if any
+ */
+public class Book implements Comparable<Book> {
 
 	private int catNumber; // A unique ID for each book
 	private String author;
@@ -40,17 +42,17 @@ public class Book {
 		this.borrower = borrower;
 	}
 	
-	public void attachBorrower() {
-		
+	public void attachBorrower(Borrower borrower) {
+		this.borrower = borrower;
 	}
 	
-	public void detachBorrower() {
-		
+	public void detachBorrower(Borrower borrower) {
+		this.borrower = null;
 	}
 	
 	@Override
 	public String toString() {
-		return "";
+		return "CatNumber : " + catNumber + ", Title : " + title + ", Author : " + author + ", Borrower : " + borrower;
 	}
 	
 	@Override
@@ -66,6 +68,11 @@ public class Book {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public int compareTo(Book other) {
+		return Integer.compare(this.catNumber, other.catNumber);
 	}
 
 }
